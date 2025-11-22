@@ -32,5 +32,57 @@ Nice looking page should be available. It should be responsive and mobile friend
 ## AI
 AI should be used to generate a list of accommodations based on the user's preferences. AI should be able to select the best model based on the user's preferences. AI should be able to select the best model based on the user's preferences. AI should be able to select the best model based on the user's preferences. AI should be able to select the best model based on the user's preferences.
 
+## Implementation Details
+
+### Current Implementation Status
+
+**Implemented Features:**
+- ✅ Search form with location, dates, adults, children, preferences
+- ✅ Currency selection (CZK, EUR, USD)
+- ✅ Language selection (CZ, EN)
+- ✅ Children age inputs
+- ✅ Cookie consent and search preference persistence
+- ✅ Modern, responsive UI with loading/error states
+- ✅ Pagination for results
+- ✅ Total price calculation
+
+**API Integrations:**
+- **Booking.com**: Via RapidAPI (booking-com15 API)
+  - Endpoint: `/api/v1/hotels/searchDestination` → `/api/v1/hotels/searchHotels`
+  - Supports: Currency, language, children ages, date ranges
+- **Google Hotels**: Via SerpAPI
+  - Endpoint: `google_hotels` engine
+  - Supports: Currency, language, location search
+
+**Result Aggregation Strategy:**
+1. Fetch up to 50 results from each source (Booking.com + Google Hotels)
+2. Combine all results into a single pool
+3. Score all results using AI or mock scoring
+4. Sort by overall score (descending)
+5. Return top N results based on user's limit
+
+**Missing Features (Future Enhancements):**
+- ❌ Admin panel with Google OAuth authentication
+- ❌ Real AI scoring (currently using mock scores)
+- ❌ AI model selection (OpenAI, Anthropic, Gemini)
+- ❌ Webhook integration for n8n
+- ❌ Location autocomplete with country flags
+- ❌ Airbnb integration (no public API available)
+
+### Technology Stack
+- **Frontend**: React (Vite), Tailwind CSS, React Router
+- **Backend**: Node.js, Express
+- **APIs**: RapidAPI (Booking.com), SerpAPI (Google Hotels)
+- **Deployment**: Docker, Docker Compose
+
+### Environment Variables Required
+```
+PORT=3000
+RAPIDAPI_KEY=<your-rapidapi-key>
+RAPIDAPI_HOST=booking-com15.p.rapidapi.com
+SERPAPI_KEY=<your-serpapi-key>
+OPENAI_API_KEY=<optional-for-future-ai-scoring>
+```
+
 ## Future
 Future features should be added as needed.

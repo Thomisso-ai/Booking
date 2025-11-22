@@ -49,9 +49,19 @@ const ResultCard = ({ result }) => {
                         </div>
                     </div>
 
-                    <div className="mt-4 flex justify-between items-center">
-                        <div className="text-lg font-bold text-gray-900">
-                            {price} {currency} <span className="text-sm font-normal text-gray-500">/ night</span>
+                    <div className="mt-4 flex justify-between items-end">
+                        <div className="text-right">
+                            <div className="text-2xl font-bold text-indigo-600">
+                                {result.totalPrice ? result.totalPrice.toLocaleString() : price} {currency}
+                            </div>
+                            <div className="text-sm text-gray-500">
+                                {result.nights ? `Total for ${result.nights} nights` : 'per night'}
+                            </div>
+                            {result.totalPrice && (
+                                <div className="text-xs text-gray-400">
+                                    ({price} {currency} / night)
+                                </div>
+                            )}
                         </div>
                         <button
                             onClick={() => setShowDetails(!showDetails)}
