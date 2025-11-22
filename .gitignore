@@ -19,3 +19,13 @@ __pycache__/
 *.pyc
 venv/
 .env
+.env.*
+!.env.example
+
+# Web App
+client/node_modules/
+client/dist/
+client/.eslintcache
+server/node_modules/
+server/dist/
+
