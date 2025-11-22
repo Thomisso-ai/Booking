@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const SearchForm = () => {
+const SearchForm = ({ onSearch }) => {
     const [formData, setFormData] = useState({
         location: '',
         checkIn: '',
@@ -15,6 +15,7 @@ const SearchForm = () => {
             skiResort: false,
         },
         instructions: '',
+        limit: 10,
     });
 
     const handleChange = (e) => {
@@ -34,8 +35,7 @@ const SearchForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Search Data:', formData);
-        // TODO: Call API
+        onSearch(formData);
     };
 
     return (
@@ -135,6 +135,21 @@ const SearchForm = () => {
                         placeholder="e.g., I want a place with a view of the mountains and close to a hiking trail."
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border"
                     />
+                </div>
+
+                {/* Limit */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Number of Results</label>
+                    <select
+                        name="limit"
+                        value={formData.limit}
+                        onChange={handleChange}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border"
+                    >
+                        <option value="5">Top 5</option>
+                        <option value="10">Top 10</option>
+                        <option value="20">Top 20</option>
+                    </select>
                 </div>
 
                 <button

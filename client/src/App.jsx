@@ -1,9 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import SearchForm from './components/SearchForm';
 import AdminPanel from './components/AdminPanel';
+import ResultsList from './components/ResultsList';
 
 function App() {
+  const [searchResults, setSearchResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const handleSearch = async (searchData) => {
+    setLoading(true);
+    try {
+      const response = await fetch('http://localhost:3000/api/search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(searchData),
+      });
+      const data = await response.json();
+      setSearchResults(data.results || []);
+    } catch (error) {
+      console.error('Error searching:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Router>
       <div className="min-h-screen bg-gray-100">
@@ -26,7 +49,16 @@ function App() {
 
         <div className="py-10">
           <Routes>
-            <Route path="/" element={<SearchForm />} />
+            <Route path="/" element={
+              <>
+                <SearchForm onSearch={handleSearch} />
+                {loading ? (
+                  <div className="text-center mt-8">Loading...</div>
+                ) : (
+                  <ResultsList results={searchResults} />
+                )}
+              </>
+            } />
             <Route path="/admin" element={<AdminPanel />} />
           </Routes>
         </div>
